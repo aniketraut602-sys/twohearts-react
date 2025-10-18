@@ -1,0 +1,14 @@
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+body{margin:0;background:#fff;color:#111}
+.app-container{max-width:900px;margin:18px auto;padding:12px}
+.app-header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;text-decoration:none;color:inherit}
+.card{border:1px solid #ddd;padding:12px;border-radius:8px;margin-bottom:12px}
+.btn{background:#0b66ff;color:#fff;border:none;padding:8px 10px;border-radius:6px;cursor:pointer}
+.btn-ghost{background:#f4f4f4;color:#111}
+.actions{margin-top:12px;display:flex;gap:8px}
+.profile-card{padding:8px;border-radius:6px;border:1px solid #eee;margin-bottom:8px}
+.chat-window{max-height:240px;overflow:auto;padding:8px;border:1px solid #eee;margin-bottom:8px}
+.msg{padding:6px;border-radius:6px;margin-bottom:6px}
+.msg.me{background:#e6f0ff;text-align:right}
+.sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
