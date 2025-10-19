@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useEffect, useState } from "react";
 import Landing from "./components/Landing";
 import Auth from "./components/Auth";
@@ -29,7 +30,7 @@ export default function App() {
 
       <main id="main" tabIndex="-1">
         {route==="landing" && <Landing onGetStarted={()=>setRoute("auth")} />}
-        {route==="auth" && <Auth onCreated={(u)=>{ setUser(u); setRoute("prefs") }} />}
+        {route==="auth" && <Auth onCreated={(u)=>{ setUser(u); setRoute("browse") }} />}
         {route==="browse" && <Browse onView={(id)=>setRoute(`profile:${id}`)} onChat={(m)=>{ setActiveMatch(m); setRoute("chat") }} />}
         {route.startsWith("profile:") && <ProfileDetail id={route.split(":")[1]} onBack={()=>setRoute("browse")} onConnect={()=>setRoute("browse")} />}
         {route==="chat" && <Chat match={activeMatch} onClose={()=>setRoute("browse")} />}
