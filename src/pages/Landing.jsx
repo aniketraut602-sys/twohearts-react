@@ -45,7 +45,7 @@ export default function Landing() {
       </a>
 
       {/* Hero Section */}
-      <section className="hero" style={{
+      <div className="hero" style={{
         textAlign: 'center',
         padding: '6rem 1rem',
         background: 'linear-gradient(135deg, #fce4ec 0%, #fff 100%)',
@@ -76,19 +76,19 @@ export default function Landing() {
             </Link>
           </nav>
         </div>
-      </section>
+      </div>
 
       {/* Stats Section */}
-      <section className="stats" aria-label="Platform Statistics" style={{ padding: '2rem 1rem', backgroundColor: '#fce4ec', textAlign: 'center' }}>
+      <div className="stats" aria-label="Platform Statistics" style={{ padding: '2rem 1rem', backgroundColor: '#fce4ec', textAlign: 'center' }}>
         <div className="container">
           <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D81B60', margin: 0 }}>
             🎉 Over 1,000 meaningful connections made!
           </p>
         </div>
-      </section>
+      </div>
 
       {/* How It Works Section */}
-      <section className="how-it-works" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
+      <div className="how-it-works" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
         <div className="container">
           <h2 id="how-heading" style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2rem' }}>How It Works</h2>
           <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', textAlign: 'center' }}>
@@ -109,10 +109,10 @@ export default function Landing() {
             </article>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Safety Section */}
-      <section className="safety" style={{ padding: '4rem 1rem', backgroundColor: '#fce4ec' }}>
+      <div className="safety" style={{ padding: '4rem 1rem', backgroundColor: '#fce4ec' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '4rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '300px' }}>
             <h2 id="safety-heading" style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>Safety is Our Priority</h2>
@@ -129,18 +129,18 @@ export default function Landing() {
             🛡️
           </div>
         </div>
-      </section>
+      </div>
 
       {/* FAQ Section */}
-      <section className="faq" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
+      <div className="faq" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
         <div className="container" style={{ maxWidth: '800px' }}>
           <h2 id="faq-heading" style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2rem' }}>Frequently Asked Questions</h2>
           <Accordion items={faqItems} />
         </div>
-      </section>
+      </div>
 
       {/* CTA Section */}
-      <section className="cta" style={{ padding: '6rem 1rem', textAlign: 'center', backgroundColor: '#212121', color: 'white' }}>
+      <div className="cta" style={{ padding: '6rem 1rem', textAlign: 'center', backgroundColor: '#212121', color: 'white' }}>
         <div className="container">
           <h2 id="cta-heading" style={{ marginBottom: '2rem', color: 'white' }}>Ready to find your connection?</h2>
           <Link
@@ -152,7 +152,7 @@ export default function Landing() {
             Join Now
           </Link>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
