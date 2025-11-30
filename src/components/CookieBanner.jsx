@@ -23,7 +23,7 @@ export default function CookieBanner() {
     if (!isVisible) return null;
 
     return (
-        <aside className="cookie-banner" aria-label="Cookie Consent">
+        <aside className="cookie-banner">
             <div className="container cookie-content">
                 <p>
                     We use cookies to improve your experience and ensure the safety of our platform.

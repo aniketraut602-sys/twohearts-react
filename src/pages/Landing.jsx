@@ -108,15 +108,9 @@ export default function Landing() {
               We use advanced technology to keep you safe. Our <strong>Contact Detection</strong> system warns you if someone shares personal info too early.
             </p>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              <li style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span aria-hidden="true" style={{ color: 'green' }}>✓</span> Verified Profiles
-              </li>
-              <li style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span aria-hidden="true" style={{ color: 'green' }}>✓</span> End-to-End Encryption
-              </li>
-              <li style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span aria-hidden="true" style={{ color: 'green' }}>✓</span> 24/7 Moderation
-              </li>
+              <li style={{ marginBottom: '0.5rem' }}>Verified Profiles</li>
+              <li style={{ marginBottom: '0.5rem' }}>End-to-End Encryption</li>
+              <li style={{ marginBottom: '0.5rem' }}>24/7 Moderation</li>
             </ul>
           </div>
           <div style={{ flex: 1, minWidth: '300px', textAlign: 'center', fontSize: '8rem' }}>
