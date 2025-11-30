@@ -29,20 +29,8 @@ export default function Landing() {
   ];
 
   return (
-    <main id="main-content" tabIndex="-1" className="landing-page" role="main">
+    <main id="main-content" tabIndex="-1" className="landing-page">
       <AccessibilityMenu />
-
-      {/* Skip to main content link for keyboard users */}
-      <a href="#main-content" className="skip-link sr-only focus:not-sr-only" style={{
-        position: 'absolute',
-        zIndex: 999,
-        padding: '1em',
-        backgroundColor: '#D81B60',
-        color: 'white',
-        textDecoration: 'none'
-      }}>
-        Skip to main content
-      </a>
 
       {/* Hero Section */}
       <div className="hero" style={{

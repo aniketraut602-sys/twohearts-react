@@ -21,9 +21,21 @@ export default function RootLayout() {
 
   return (
     <div className="app-container">
+      <a href="#main-content" className="skip-link sr-only focus:not-sr-only" style={{
+        position: 'absolute',
+        zIndex: 9999,
+        padding: '1em',
+        backgroundColor: '#D81B60',
+        color: 'white',
+        textDecoration: 'none',
+        top: 0,
+        left: 0
+      }}>
+        Skip to main content
+      </a>
       <Navbar user={user} onSignOut={handleSignOut} />
 
-      <main>
+      <main id="main-content" tabIndex="-1">
         <Outlet context={{ user, setUser }} />
       </main>
 

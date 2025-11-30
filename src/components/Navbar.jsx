@@ -6,7 +6,7 @@ export default function Navbar({ user, onSignOut }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="navbar" aria-label="Main navigation">
+        <nav className="navbar">
             <div className="container navbar-container">
                 <Link to="/" className="navbar-logo" aria-label="TwoHearts Home">
                     <img
