@@ -11,25 +11,27 @@ export default function Accordion({ items }) {
         <div className="accordion">
             {items.map((item, index) => (
                 <div key={index} className="accordion-item">
-                    <button
-                        type="button"
-                        className="accordion-header"
-                        onClick={() => toggleItem(index)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                toggleItem(index);
-                            }
-                        }}
-                        aria-expanded={activeIndex === index}
-                        aria-controls={`accordion-content-${index}`}
-                        id={`accordion-header-${index}`}
-                    >
-                        <span className="accordion-title">{item.title}</span>
-                        <span className="accordion-icon" aria-hidden="true">
-                            {activeIndex === index ? '−' : '+'}
-                        </span>
-                    </button>
+                    <h3>
+                        <button
+                            type="button"
+                            className="accordion-header"
+                            onClick={() => toggleItem(index)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    toggleItem(index);
+                                }
+                            }}
+                            aria-expanded={activeIndex === index}
+                            aria-controls={`accordion-content-${index}`}
+                            id={`accordion-header-${index}`}
+                        >
+                            <span className="accordion-title">{item.title}</span>
+                            <span className="accordion-icon" aria-hidden="true">
+                                {activeIndex === index ? '−' : '+'}
+                            </span>
+                        </button>
+                    </h3>
                     <div
                         id={`accordion-content-${index}`}
                         role="region"
