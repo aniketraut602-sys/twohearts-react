@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Accordion from '../components/Accordion';
+import AccessibilityMenu from '../components/AccessibilityMenu';
 
 export default function Landing() {
   // Set page title for accessibility
@@ -29,6 +30,8 @@ export default function Landing() {
 
   return (
     <main id="main-content" tabIndex="-1" className="landing-page" role="main">
+      <AccessibilityMenu />
+
       {/* Skip to main content link for keyboard users */}
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only" style={{
         position: 'absolute',
@@ -72,6 +75,15 @@ export default function Landing() {
               Learn More
             </Link>
           </nav>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="stats" aria-label="Platform Statistics" style={{ padding: '2rem 1rem', backgroundColor: '#fce4ec', textAlign: 'center' }}>
+        <div className="container">
+          <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D81B60', margin: 0 }}>
+            🎉 Over 1,000 meaningful connections made!
+          </p>
         </div>
       </section>
 
