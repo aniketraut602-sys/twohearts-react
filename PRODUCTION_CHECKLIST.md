@@ -1,0 +1,12 @@
+Production Delivery Checklist
+- [ ] Node version >= 18
+- [ ] package-lock.json committed
+- [ ] npm ci succeeds
+- [ ] npm run build succeeds
+- [ ] CI passes 7 iterative validations
+- [ ] Accessibility (axe) reports fixed
+- [ ] Playwright e2e tests pass
+- [ ] Lighthouse scores meet thresholds
+- [ ] Docker image builds and serves correctly
+- [ ] Vulnerability scan (npm audit) addressed
+- [ ] Codeowners and security reporting configured

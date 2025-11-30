@@ -1,0 +1,9 @@
+{
+  "name": "playwright-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test:e2e": "npx playwright test",
+    "test:accessibility": "node tests/axe-runner.js"
+  },
+  "devDependencies": {}
+}

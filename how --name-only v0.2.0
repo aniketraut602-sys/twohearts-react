@@ -1,0 +1,5 @@
+[33mebcbb6c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m chore: remove node_modules from tracking and add .gitignore
+[33m159fea7[m chore: remove node_modules from repository and add .gitignore
+[33mb3d99ae[m[33m ([m[1;33mtag: [m[1;33mv0.2.0[m[33m)[m chore(release): bump version to v0.2.0 and add changelog (v0.2.0)
+[33m085e107[m chore: merge fix/route-auth-to-browse
+[33mda67194[m[33m ([m[1;31morigin/fix/route-auth-to-browse[m[33m, [m[1;32mfix/route-auth-to-browse[m[33m)[m fix: navigate to browse after account creation (fix missing prefs route)
