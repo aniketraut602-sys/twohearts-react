@@ -12,8 +12,15 @@ export default function Accordion({ items }) {
             {items.map((item, index) => (
                 <div key={index} className="accordion-item">
                     <button
+                        type="button"
                         className="accordion-header"
                         onClick={() => toggleItem(index)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                toggleItem(index);
+                            }
+                        }}
                         aria-expanded={activeIndex === index}
                         aria-controls={`accordion-content-${index}`}
                         id={`accordion-header-${index}`}
