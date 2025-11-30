@@ -8,10 +8,10 @@ export default function Navbar({ user, onSignOut }) {
     return (
         <nav className="navbar">
             <div className="container navbar-container">
-                <Link to="/" className="navbar-logo" aria-label="TwoHearts Home">
+                <Link to="/" className="navbar-logo">
                     <img
                         src={logo}
-                        alt="TwoHearts"
+                        alt="TwoHearts Home"
                         style={{ height: '40px', width: 'auto' }}
                     />
                 </Link>

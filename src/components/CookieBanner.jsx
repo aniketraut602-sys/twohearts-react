@@ -23,13 +23,13 @@ export default function CookieBanner() {
     if (!isVisible) return null;
 
     return (
-        <div className="cookie-banner" role="region" aria-label="Cookie Consent">
+        <div className="cookie-banner" role="dialog" aria-modal="false" aria-label="Cookie Consent">
             <div className="container cookie-content">
                 <p>
                     We use cookies to improve your experience and ensure the safety of our platform.
                     By continuing, you agree to our use of cookies.
                 </p>
-                <div className="cookie-actions">
+                <div className="cookie-actions" style={{ display: 'flex', gap: '1rem' }}>
                     <button onClick={handleDecline} className="btn btn-ghost btn-sm">
                         Decline
                     </button>
