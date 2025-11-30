@@ -45,7 +45,7 @@ export default function Landing() {
       </a>
 
       {/* Hero Section */}
-      <section className="hero" aria-labelledby="hero-heading" style={{
+      <section className="hero" style={{
         textAlign: 'center',
         padding: '6rem 1rem',
         background: 'linear-gradient(135deg, #fce4ec 0%, #fff 100%)',
@@ -88,7 +88,7 @@ export default function Landing() {
       </section>
 
       {/* How It Works Section */}
-      <section className="how-it-works" aria-labelledby="how-heading" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
+      <section className="how-it-works" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
         <div className="container">
           <h2 id="how-heading" style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2rem' }}>How It Works</h2>
           <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', textAlign: 'center' }}>
@@ -112,7 +112,7 @@ export default function Landing() {
       </section>
 
       {/* Safety Section */}
-      <section className="safety" aria-labelledby="safety-heading" style={{ padding: '4rem 1rem', backgroundColor: '#fce4ec' }}>
+      <section className="safety" style={{ padding: '4rem 1rem', backgroundColor: '#fce4ec' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '4rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '300px' }}>
             <h2 id="safety-heading" style={{ fontSize: '2rem', marginBottom: '1.5rem' }}>Safety is Our Priority</h2>
@@ -132,7 +132,7 @@ export default function Landing() {
       </section>
 
       {/* FAQ Section */}
-      <section className="faq" aria-labelledby="faq-heading" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
+      <section className="faq" style={{ padding: '4rem 1rem', backgroundColor: '#fff' }}>
         <div className="container" style={{ maxWidth: '800px' }}>
           <h2 id="faq-heading" style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2rem' }}>Frequently Asked Questions</h2>
           <Accordion items={faqItems} />
@@ -140,7 +140,7 @@ export default function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="cta" aria-labelledby="cta-heading" style={{ padding: '6rem 1rem', textAlign: 'center', backgroundColor: '#212121', color: 'white' }}>
+      <section className="cta" style={{ padding: '6rem 1rem', textAlign: 'center', backgroundColor: '#212121', color: 'white' }}>
         <div className="container">
           <h2 id="cta-heading" style={{ marginBottom: '2rem', color: 'white' }}>Ready to find your connection?</h2>
           <Link
