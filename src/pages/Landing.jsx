@@ -81,23 +81,17 @@ export default function Landing() {
           <h2 id="how-heading" style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2rem' }}>How It Works</h2>
           <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', textAlign: 'center' }}>
             <article>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-                <span role="img" aria-label="Profile Icon">📝</span>
-              </div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
               <h3>1. Create Profile</h3>
               <p>Share your interests and values, not just your best selfies.</p>
             </article>
             <article>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-                <span role="img" aria-label="Chat Icon">💬</span>
-              </div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>
               <h3>2. Start Chatting</h3>
               <p>Connect with matches through text. Get to know the real person.</p>
             </article>
             <article>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>
-                <span role="img" aria-label="Heart Icon">❤️</span>
-              </div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>❤️</div>
               <h3>3. Reveal & Connect</h3>
               <p>Unlock photos and meet up when the connection feels right.</p>
             </article>
@@ -120,7 +114,7 @@ export default function Landing() {
             </ul>
           </div>
           <div style={{ flex: 1, minWidth: '300px', textAlign: 'center', fontSize: '8rem' }}>
-            <span role="img" aria-label="Shield Icon">🛡️</span>
+            🛡️
           </div>
         </div>
       </section>
