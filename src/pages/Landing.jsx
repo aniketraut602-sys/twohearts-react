@@ -81,17 +81,30 @@ export default function Landing() {
           <h2 id="how-heading" style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2rem' }}>How It Works</h2>
           <div className="steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', textAlign: 'center' }}>
             <article>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📝</div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem', color: '#D81B60' }}>
+                <svg aria-hidden="true" focusable="false" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+              </div>
               <h3>1. Create Profile</h3>
               <p>Share your interests and values, not just your best selfies.</p>
             </article>
             <article>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem', color: '#D81B60' }}>
+                <svg aria-hidden="true" focusable="false" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </div>
               <h3>2. Start Chatting</h3>
               <p>Connect with matches through text. Get to know the real person.</p>
             </article>
             <article>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>❤️</div>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem', color: '#D81B60' }}>
+                <svg aria-hidden="true" focusable="false" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </div>
               <h3>3. Reveal & Connect</h3>
               <p>Unlock photos and meet up when the connection feels right.</p>
             </article>
@@ -108,13 +121,30 @@ export default function Landing() {
               We use advanced technology to keep you safe. Our <strong>Contact Detection</strong> system warns you if someone shares personal info too early.
             </p>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              <li style={{ marginBottom: '0.5rem' }}>Verified Profiles</li>
-              <li style={{ marginBottom: '0.5rem' }}>End-to-End Encryption</li>
-              <li style={{ marginBottom: '0.5rem' }}>24/7 Moderation</li>
+              <li style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Verified Profiles
+              </li>
+              <li style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                End-to-End Encryption
+              </li>
+              <li style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                24/7 Moderation
+              </li>
             </ul>
           </div>
-          <div style={{ flex: 1, minWidth: '300px', textAlign: 'center', fontSize: '8rem' }}>
-            🛡️
+          <div style={{ flex: 1, minWidth: '300px', textAlign: 'center', color: '#D81B60' }}>
+            <svg aria-hidden="true" focusable="false" width="128" height="128" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
           </div>
         </div>
       </section>
