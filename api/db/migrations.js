@@ -113,7 +113,6 @@ function runMigrations() {
         FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       )
-      )
     `);
 
     // Migration 5.1: Add deleted_for_recipient_at to messages if not exists
