@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
-    const { token, user } = useAuth();
+    const { token, user } = useAuth() || {};
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
