@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import CookieBanner from '../components/CookieBanner';
 
 export default function RootLayout() {
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth() || {};
   const navigate = useNavigate();
 
   const handleSignOut = () => {
