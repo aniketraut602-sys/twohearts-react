@@ -33,6 +33,7 @@ export default function Navbar({ user, onSignOut }) {
                             <li><Link to="/browse" className="nav-link" onClick={() => setIsOpen(false)}>Browse</Link></li>
                             <li><Link to="/chat" className="nav-link" onClick={() => setIsOpen(false)}>Chats</Link></li>
                             <li><Link to="/connections" className="nav-link" onClick={() => setIsOpen(false)}>Connections</Link></li>
+                            <li><Link to="/global-chat" className="nav-link" onClick={() => setIsOpen(false)} style={{ color: '#D81B60', fontWeight: 'bold' }}>Global Chat</Link></li>
                             <li><Link to="/profile/edit" className="nav-link" onClick={() => setIsOpen(false)}>Profile</Link></li>
                             <li>
                                 <button onClick={() => { onSignOut(); setIsOpen(false); }} className="btn btn-ghost btn-sm">

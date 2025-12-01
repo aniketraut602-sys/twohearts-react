@@ -24,6 +24,7 @@ const usersRouter = require('./routes/users');
 const eventsRouter = require('./routes/events');
 const connectionsRouter = require('./routes/connections');
 const chatRoomsRouter = require('./routes/chatRooms');
+const globalChatRouter = require('./routes/globalChat');
 
 const compression = require('compression');
 const winston = require('winston');
@@ -74,6 +75,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/connections', connectionsRouter);
 app.use('/api/chat-rooms', chatRoomsRouter);
+app.use('/api/global-chat', globalChatRouter);
 
 const setupSwagger = require('./swagger');
 setupSwagger(app);
