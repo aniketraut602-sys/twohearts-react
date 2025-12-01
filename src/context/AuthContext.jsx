@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { loadCurrentUser, loadToken, saveUser, saveToken, clearAuth } from '../lib/storage';
+import { loadCurrentUser, getToken, saveUser, saveToken, clearAuth } from '../lib/storage';
 
 const AuthContext = createContext(null);
 
@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const initAuth = () => {
             const storedUser = loadCurrentUser();
-            const storedToken = loadToken();
+            const storedToken = getToken();
 
             if (storedUser && storedToken) {
                 setUser(storedUser);
