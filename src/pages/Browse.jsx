@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getToken } from '../lib/storage';
+import { useAuth } from '../context/AuthContext';
 
 const API_URL = '/api';
 
 export default function Browse() {
-  const { user } = useOutletContext();
+  const { user } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,6 +14,10 @@ export default function Browse() {
   useEffect(() => {
     const fetchProfiles = async () => {
       if (!user || !user.id) {
+        // If user is not loaded yet, wait or show loading. 
+        // But if user is null and not loading, then error.
+        // useAuth provides 'loading' too.
+        // But here we just check user.
         setError('User not authenticated');
         setLoading(false);
         return;
@@ -43,7 +48,18 @@ export default function Browse() {
       }
     };
 
-    fetchProfiles();
+    if (user) {
+      fetchProfiles();
+    } else {
+      // If user is null, maybe we are still loading auth?
+      // But Browse is protected, so user should be there.
+      // If not, setError.
+      // But wait, if AuthContext is loading, we shouldn't error yet.
+      // But ProtectedRoute handles loading. So if we are here, user should be present.
+      // Unless ProtectedRoute is not wrapping it?
+      // App.jsx wraps it.
+      // So user should be present.
+    }
   }, [user]);
 
   if (loading) {
