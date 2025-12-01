@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useOutletContext } from 'react-router-dom';
+import { useParams, useOutletContext, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { getToken } from '../lib/storage';
 import axios from 'axios';
@@ -24,6 +24,7 @@ const MessageStatus = ({ message, currentUserId }) => {
 const Chat = () => {
   const { chatId } = useParams();
   const { user: currentUser } = useOutletContext();
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [typingUser, setTypingUser] = useState(null);
@@ -34,6 +35,14 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
 
   const token = getToken();
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    // If no token, definitely redirect
+    if (!getToken()) {
+      navigate('/auth');
+    }
+  }, [navigate]);
 
   // Fetch messages
   useEffect(() => {
@@ -70,7 +79,13 @@ const Chat = () => {
     });
 
     socket.on('newMessage', (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) => {
+        // Deduplicate based on ID or tempId if we had one
+        if (prevMessages.some(m => m.id === message.id || (m.tempId && m.tempId === message.tempId))) {
+          return prevMessages.map(m => m.tempId === message.tempId ? message : m);
+        }
+        return [...prevMessages, message];
+      });
     });
 
     socket.on('messageDeleted', ({ messageId }) => {
@@ -146,16 +161,6 @@ const Chat = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Validate currentUser exists
-  if (!currentUser || !currentUser.id) {
-    return (
-      <div className="card">
-        <h2>Error</h2>
-        <p>User data not available. Please log in again.</p>
-      </div>
-    );
-  }
-
   // Validate chatId exists
   if (!chatId) {
     return (
@@ -186,22 +191,39 @@ const Chat = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (newMessage.trim() === '' || !socketRef.current) return;
+    if (newMessage.trim() === '' || !socketRef.current || !currentUser) return;
 
     // Stop typing indicator immediately on send
     clearTimeout(typingTimeoutRef.current);
     socketRef.current.emit('stopTyping', { chatRoomId: chatId });
     typingTimeoutRef.current = null;
 
+    const content = newMessage;
+    const tempId = Date.now();
+    const optimisticMessage = {
+      id: tempId,
+      tempId: tempId,
+      content: content,
+      user_id: currentUser.id,
+      created_at: new Date().toISOString(),
+      isOptimistic: true
+    };
+
+    setNewMessage('');
+    setMessages(prev => [...prev, optimisticMessage]);
+
     try {
       await axios.post(
         `${API_URL}/chat-rooms/${chatId}/messages`,
-        { content: newMessage },
+        { content: newMessage, tempId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setNewMessage('');
+      // Success - let socket handle the rest (replacing tempId)
     } catch (error) {
       console.error('Error sending message:', error);
+      setMessages(prev => prev.filter(m => m.id !== tempId));
+      setNewMessage(content);
+      alert('Failed to send message.');
     }
   };
 
@@ -216,14 +238,14 @@ const Chat = () => {
       <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((msg) => (
           <div
-            key={msg.id}
+            key={msg.id || msg.tempId}
             data-message-id={msg.id}
-            className={`p-2 my-2 rounded max-w-lg ${msg.user_id === currentUser.id ? 'bg-blue-200 ml-auto' : 'bg-gray-200'}`}
+            className={`p-2 my-2 rounded max-w-lg ${msg.user_id === currentUser?.id ? 'bg-blue-200 ml-auto' : 'bg-gray-200'} ${msg.isOptimistic ? 'opacity-70' : ''}`}
           >
             <p className={msg.isDeleted ? 'text-gray-500 italic' : ''}>{msg.content}</p>
             <div className="flex justify-end items-center">
               <span className="text-xs text-gray-500 mr-2">{new Date(msg.created_at).toLocaleTimeString()}</span>
-              <MessageStatus message={msg} currentUserId={currentUser.id} />
+              {msg.isOptimistic ? <span className="text-xs text-gray-400">Sending...</span> : <MessageStatus message={msg} currentUserId={currentUser?.id} />}
             </div>
           </div>
         ))}
