@@ -1,21 +1,14 @@
-import { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { loadCurrentUser, clearAuth } from '../lib/storage';
+import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import CookieBanner from '../components/CookieBanner';
 
 export default function RootLayout() {
-  const [user, setUser] = useState(null);
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const currentUser = loadCurrentUser();
-    setUser(currentUser);
-  }, []);
-
   const handleSignOut = () => {
-    clearAuth();
-    setUser(null);
+    logout();
     navigate('/');
   };
 
@@ -36,7 +29,7 @@ export default function RootLayout() {
       <Navbar user={user} onSignOut={handleSignOut} />
 
       <main id="main-content" tabIndex="-1">
-        <Outlet context={{ user, setUser }} />
+        <Outlet />
       </main>
 
       <footer className="app-footer" style={{ backgroundColor: '#f5f5f5', padding: '4rem 0', marginTop: '4rem' }}>
