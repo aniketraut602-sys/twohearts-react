@@ -75,16 +75,20 @@ router.post('/login', authLimiter, async (req, res) => {
     }
 
     const { email, password } = req.body;
+    console.log('Login attempt for:', email);
 
     const db = getDb();
     const stmt = db.prepare('SELECT * FROM users WHERE email = ?');
     const user = stmt.get(email);
+
+    console.log('User found:', user ? 'Yes' : 'No');
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log('Password match:', isMatch);
 
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
