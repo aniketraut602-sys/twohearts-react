@@ -74,26 +74,6 @@ router.post('/login', authLimiter, async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const { email, password } = req.body;
-
-    const db = getDb();
-    const stmt = db.prepare('SELECT * FROM users WHERE email = ?');
-    const user = stmt.get(email);
-
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    const jwtSecret = getJwtSecret();
-    const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '24h' });
-
-    res.json({ token });
   } catch (err) {
     console.error('Login error:', err);
     if (err.message === 'JWT_SECRET environment variable is not set') {
