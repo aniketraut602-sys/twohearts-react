@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import axios from 'axios';
@@ -20,6 +20,8 @@ const Chat = () => {
   const { chatId } = useParams();
   const { user: currentUser, token } = useAuth();
   const { socket } = useSocket();
+  const navigate = useNavigate();
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [typingUser, setTypingUser] = useState(null);
@@ -27,6 +29,13 @@ const Chat = () => {
 
   const typingTimeoutRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!token) {
+      navigate('/auth');
+    }
+  }, [token, navigate]);
 
   // Fetch messages
   useEffect(() => {
@@ -51,7 +60,13 @@ const Chat = () => {
     socket.emit('joinChat', chatId);
 
     const handleNewMessage = (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) => {
+        // Deduplicate based on ID or tempId if we had one
+        if (prevMessages.some(m => m.id === message.id || (m.tempId && m.tempId === message.tempId))) {
+          return prevMessages.map(m => m.tempId === message.tempId ? message : m);
+        }
+        return [...prevMessages, message];
+      });
     };
 
     const handleMessageDeleted = ({ messageId }) => {
@@ -144,14 +159,36 @@ const Chat = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (newMessage.trim() === '' || !socket) return;
+
     clearTimeout(typingTimeoutRef.current);
     socket.emit('stopTyping', { chatRoomId: chatId });
     typingTimeoutRef.current = null;
+
+    const content = newMessage;
+    const tempId = Date.now();
+    const optimisticMessage = {
+      id: tempId,
+      tempId: tempId,
+      content: content,
+      user_id: currentUser.id,
+      created_at: new Date().toISOString(),
+      isOptimistic: true
+    };
+
+    setNewMessage('');
+    setMessages(prev => [...prev, optimisticMessage]);
+
     try {
-      await axios.post(`${API_URL}/chat-rooms/${chatId}/messages`, { content: newMessage }, { headers: { Authorization: `Bearer ${token}` } });
-      setNewMessage('');
+      await axios.post(
+        `${API_URL}/chat-rooms/${chatId}/messages`,
+        { content: newMessage, tempId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
     } catch (error) {
       console.error('Error sending message:', error);
+      setMessages(prev => prev.filter(m => m.id !== tempId));
+      setNewMessage(content);
+      alert('Failed to send message.');
     }
   };
 
@@ -163,11 +200,15 @@ const Chat = () => {
       </div>
       <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((msg) => (
-          <div key={msg.id} data-message-id={msg.id} className={`p-2 my-2 rounded max-w-lg ${msg.user_id === currentUser.id ? 'bg-blue-200 ml-auto' : 'bg-gray-200'}`}>
+          <div
+            key={msg.id || msg.tempId}
+            data-message-id={msg.id}
+            className={`p-2 my-2 rounded max-w-lg ${msg.user_id === currentUser.id ? 'bg-blue-200 ml-auto' : 'bg-gray-200'} ${msg.isOptimistic ? 'opacity-70' : ''}`}
+          >
             <p className={msg.isDeleted ? 'text-gray-500 italic' : ''}>{msg.content}</p>
             <div className="flex justify-end items-center">
               <span className="text-xs text-gray-500 mr-2">{new Date(msg.created_at).toLocaleTimeString()}</span>
-              <MessageStatus message={msg} currentUserId={currentUser.id} />
+              {msg.isOptimistic ? <span className="text-xs text-gray-400">Sending...</span> : <MessageStatus message={msg} currentUserId={currentUser.id} />}
             </div>
           </div>
         ))}

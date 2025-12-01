@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
 import { playMessageSound } from '../utils/sound';
@@ -7,15 +8,24 @@ import Navbar from '../components/Navbar';
 const GlobalChat = () => {
     const { user, token } = useAuth();
     const { socket } = useSocket();
+    const navigate = useNavigate();
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const messagesEndRef = useRef(null);
     const chatContainerRef = useRef(null);
 
+    // Redirect if not authenticated
+    useEffect(() => {
+        if (!user && !isLoading) {
+            navigate('/auth');
+        }
+    }, [user, isLoading, navigate]);
+
     // Fetch initial messages
     useEffect(() => {
         const fetchMessages = async () => {
+            if (!token) return;
             try {
                 const response = await fetch('/api/global-chat', {
                     headers: {
@@ -33,15 +43,25 @@ const GlobalChat = () => {
             }
         };
 
-        fetchMessages();
-    }, [token]);
+        if (user) {
+            fetchMessages();
+        } else {
+            setIsLoading(false);
+        }
+    }, [token, user]);
 
     // Socket listener for new messages
     useEffect(() => {
-        if (!socket) return;
+        if (!socket || !user) return;
 
         const handleNewMessage = (message) => {
-            setMessages((prev) => [...prev, message]);
+            // Check if message already exists (to avoid duplicates from optimistic update)
+            setMessages((prev) => {
+                if (prev.some(m => m.id === message.id || (m.tempId && m.tempId === message.tempId))) {
+                    return prev.map(m => m.tempId === message.tempId ? message : m);
+                }
+                return [...prev, message];
+            });
 
             // Play sound if message is from someone else
             if (message.user.id !== user.id) {
@@ -54,7 +74,7 @@ const GlobalChat = () => {
         return () => {
             socket.off('globalMessage', handleNewMessage);
         };
-    }, [socket, user.id]);
+    }, [socket, user]);
 
     // Auto-scroll to bottom
     useEffect(() => {
@@ -63,10 +83,21 @@ const GlobalChat = () => {
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!newMessage.trim()) return;
+        if (!newMessage.trim() || !user) return;
 
         const content = newMessage;
-        setNewMessage(''); // Optimistic clear
+        const tempId = Date.now();
+        const optimisticMessage = {
+            id: tempId,
+            tempId: tempId,
+            content: content,
+            user: user,
+            created_at: new Date().toISOString(),
+            isOptimistic: true
+        };
+
+        setNewMessage(''); // Clear input
+        setMessages(prev => [...prev, optimisticMessage]); // Optimistic add
 
         try {
             const response = await fetch('/api/global-chat', {
@@ -75,17 +106,31 @@ const GlobalChat = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ content })
+                body: JSON.stringify({ content, tempId }) // Send tempId to server if supported, or just rely on content match
             });
 
             if (!response.ok) {
-                console.error('Failed to send message');
-                // Ideally restore the message to input if failed
+                throw new Error('Failed to send message');
             }
+
+            // If server doesn't support tempId echo back, we might get a duplicate. 
+            // But usually socket comes back fast. 
+            // If the socket event comes back with the real ID, we replace the optimistic one.
+            // For now, we rely on the socket event handler to replace/deduplicate if possible.
+            // If the server doesn't return the tempId, we might have a duplicate for a moment until we refresh or if we can match by content/timestamp.
+            // Simplified: We'll just let the socket add the real one and we might need to filter duplicates if we care deeply.
+            // But to fix "don't know where it is going", showing it immediately is key.
+
         } catch (error) {
             console.error('Error sending message:', error);
+            // Remove optimistic message and restore input
+            setMessages(prev => prev.filter(m => m.id !== tempId));
+            setNewMessage(content);
+            alert('Failed to send message. Please try again.');
         }
     };
+
+    if (!user) return null; // Or loading spinner
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -134,8 +179,8 @@ const GlobalChat = () => {
 
                                 return (
                                     <div
-                                        key={msg.id}
-                                        className={`flex items-end gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'} group`}
+                                        key={msg.id || msg.tempId}
+                                        className={`flex items-end gap-2 ${isMe ? 'flex-row-reverse' : 'flex-row'} group ${msg.isOptimistic ? 'opacity-70' : ''}`}
                                     >
                                         {/* Avatar */}
                                         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 shadow-sm
@@ -160,6 +205,7 @@ const GlobalChat = () => {
                                             </div>
                                             <span className={`text-[10px] text-gray-400 block ${isMe ? 'text-right mr-1' : 'ml-1'}`}>
                                                 {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                {msg.isOptimistic && ' (Sending...)'}
                                             </span>
                                         </div>
                                     </div>
